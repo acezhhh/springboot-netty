@@ -30,7 +30,7 @@ public class NettyServer {
      * work 线程组用于数据处理
      */
     private EventLoopGroup worker = new NioEventLoopGroup();
-    @Value("${netty-server.port}")
+    @Value("${netty-server.port:0}")
     private Integer port;
 
     @Autowired
