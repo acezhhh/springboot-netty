@@ -1,4 +1,10 @@
 server:
   port: 8890
-netty:
-  port: 8868
+netty-clients:
+  enabled: true
+  services[0]:
+     name: message
+     ip: 127.0.0.1
+     port: 8868
+
+

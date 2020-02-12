@@ -1,6 +1,5 @@
 package com.cja.rpc;
 
-import com.cja.netty.NettyUtil;
 import org.springframework.beans.factory.annotation.AnnotatedBeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinitionHolder;
@@ -72,7 +71,7 @@ public class RPCClientRegistrar implements ImportBeanDefinitionRegistrar {
         BeanDefinitionReaderUtils.registerBeanDefinition(holder, registry);
 
         //添加netty启动服务
-        NettyUtil.putNettyEntity(name);
+//        NettyRPCUtil.putNettyEntity(name);
     }
 
 

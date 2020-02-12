@@ -2,8 +2,7 @@ package com.cja.rpc;
 
 import com.cja.bean.RequsetBean;
 import com.cja.bean.ResponseBean;
-import com.cja.netty.NettyClient;
-import com.cja.netty.NettyUtil;
+import com.cja.client.NettyClient;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -31,7 +30,7 @@ public class RPCInvocationHandler implements InvocationHandler {
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         if (nettyClient == null) {
-            nettyClient = NettyUtil.getNettyEntity(serviceName);
+            nettyClient = NettyRPCUtil.getNettyEntity(serviceName);
         }
         RequsetBean requsetBean = new RequsetBean().toBuilder()
                 .className(type.getSimpleName())

@@ -1,5 +1,7 @@
 netty:
   port: 8868
+netty-server:
+  enabled: true
 spring:
   datasource:
     url: jdbc:h2:mem:test;INIT=RUNSCRIPT FROM 'classpath:db/data.sql'
