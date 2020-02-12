@@ -6,5 +6,7 @@ netty-clients:
      name: message
      ip: 127.0.0.1
      port: 8868
-
-
+  services[1]:
+    name: test
+    ip: 127.0.0.1
+    port: 8868

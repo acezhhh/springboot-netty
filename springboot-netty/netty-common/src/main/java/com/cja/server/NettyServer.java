@@ -25,12 +25,12 @@ public class NettyServer {
      * boss 线程组用于处理连接工作
      */
     private EventLoopGroup acceptor = new NioEventLoopGroup();
-    ;
+
     /**
      * work 线程组用于数据处理
      */
     private EventLoopGroup worker = new NioEventLoopGroup();
-    @Value("${netty.port:0000}")
+    @Value("${netty-server.port}")
     private Integer port;
 
     @Autowired
