@@ -31,6 +31,7 @@ public class RPCClientRegistrar implements ImportBeanDefinitionRegistrar {
         ClassPathScanningCandidateComponentProvider  scanner = getScanner();
         scanner.addIncludeFilter(new AnnotationTypeFilter(RPCClient.class));
 
+        //扫描出class并装配为BeanDefinition
         Set<BeanDefinition> candidateComponents = new HashSet<>();
         for (String basePackage : basePackages) {
             candidateComponents.addAll(scanner.findCandidateComponents(basePackage));
