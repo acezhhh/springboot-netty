@@ -1,24 +1,19 @@
 package com.cja.server;
 
-
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.cja.bean.RequsetBean;
 import com.cja.bean.ResponseBean;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+import org.reflections.Reflections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ReflectionUtils;
-
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.lang.reflect.Method;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 
@@ -63,6 +58,7 @@ public class SimpleServerHandler extends ChannelInboundHandlerAdapter {
 
     /**
      * 根据反射调用对应的方法
+     *
      * @param className
      * @param methodName
      * @param args
@@ -71,15 +67,27 @@ public class SimpleServerHandler extends ChannelInboundHandlerAdapter {
     private Object getResponse(String className, String methodName, Object[] args) {
         try {
             //固定包名扫描
-            Class<?> tClass = Class.forName("com.example.demo.service.impl."+className+"Impl");
-            Object object = applicationContext.getBean(tClass);
+            Class cls = Class.forName("com.cja.service." + className);
+            Reflections reflections = new Reflections("com.example.demo.service.impl");
+            //得到某接口下的所有实现类
+            Set<Class> ImplClassSet = reflections.getSubTypesOf(cls);
+            if (ImplClassSet.size() == 0) {
+                throw new Exception("未找到实现类");
+            } else if (ImplClassSet.size() > 1) {
+                throw new Exception("找到多个实现类，未明确使用哪一个");
+            }
+            //把集合转换为数组
+            Class[] classes = ImplClassSet.toArray(new Class[0]);
+            System.out.println(classes[0].getName()); //得到实现类的名字
+
+            Object object = applicationContext.getBean(classes[0]);
             Class<? extends Object>[] paramClass = null;
             Method method = ReflectionUtils.findMethod(object.getClass(), methodName, paramClass);
             Object o = null;
             if (args == null) {
                 o = ReflectionUtils.invokeMethod(method, object);
             } else {
-                o = ReflectionUtils.invokeMethod(method, object,args);
+                o = ReflectionUtils.invokeMethod(method, object, args);
             }
             return o;
         } catch (Exception e) {
