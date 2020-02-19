@@ -24,7 +24,7 @@ public class RPCClientRegistrar implements ImportBeanDefinitionRegistrar {
     public void registerBeanDefinitions(AnnotationMetadata annotationMetadata, BeanDefinitionRegistry beanDefinitionRegistry) {
         //扫描注解
         Map<String, Object> annotationAttributes = annotationMetadata
-                .getAnnotationAttributes(ComponentScan.class.getName());
+                .getAnnotationAttributes(EnableRPC.class.getName());
         String[] basePackages = (String[]) annotationAttributes.get("basePackages");
 
         //扫描类
