@@ -8,8 +8,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
-@EnableJpaRepositories(basePackages = "com")
-@EntityScan(basePackages = "com")
+@EnableJpaRepositories(basePackages = "com.example.demo.repository")
+@EntityScan(basePackages = "com.cja.entity")
 @EnableRPC
 public class ServerApplication {
 
